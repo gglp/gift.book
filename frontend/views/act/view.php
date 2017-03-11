@@ -2,7 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-
+use yii\grid\GridView;
+use frontend\models\Act;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Act */
 
@@ -35,5 +36,24 @@ $this->params['breadcrumbs'][] = $this->title;
             'comment:ntext',
         ],
     ]) ?>
+    
+    <?= Html::a(Yii::t('app', 'Добавить книгу в акт'), ['actbook/create', 'act_id' => $model->id], ['class' => 'btn btn-success']) ?>
+    
+    <?= GridView::widget([
+        'dataProvider' => new \yii\data\ActiveDataProvider(['query' => $model->getActBooks()]),
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+
+            // 'id',
+            'inventory_number',
+            'book_id',
+            'price',
+
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'controller' => 'actbook',
+            ],
+        ],
+    ]); ?>
 
 </div>
