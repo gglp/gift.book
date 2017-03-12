@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Book */
@@ -15,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Обновить'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('app', 'Изменить'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a(Yii::t('app', 'Удалить'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
@@ -40,4 +41,17 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
+    
+    <?= GridView::widget([
+        'dataProvider' => new \yii\data\ActiveDataProvider(['query' => $model->getActBooks()]),
+        'columns' => [
+            // 'id',
+            [
+                'attribute' => 'act_id',
+                'value' => 'act.number',
+            ],
+            'inventory_number',
+            'price',
+        ],
+    ]); ?>
 </div>

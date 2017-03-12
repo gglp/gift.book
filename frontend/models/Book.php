@@ -50,12 +50,20 @@ class Book extends \yii\db\ActiveRecord
             'isbn' => Yii::t('app', 'ISBN'),
             'author' => Yii::t('app', 'Автор'),
             'title' => Yii::t('app', 'Название'),
-            'year' => Yii::t('app', 'Год издания'),
-            'city' => Yii::t('app', 'Город издания'),
+            'year' => Yii::t('app', 'Год'),
+            'city' => Yii::t('app', 'Город'),
             'publisher' => Yii::t('app', 'Издательство'),
             'volume' => Yii::t('app', 'Объём'),
             'description' => Yii::t('app', 'Описание'),
             'comment' => Yii::t('app', 'Комментарий'),
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getActBooks()
+    {
+        return $this->hasMany(ActBook::className(), ['book_id' => 'id']);
     }
 }

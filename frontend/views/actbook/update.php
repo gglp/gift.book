@@ -5,10 +5,10 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\ActBook */
 
-$this->title = Yii::t('app', 'Update {modelClass}: ', [
-    'modelClass' => 'Act Book',
-]) . $model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Act Books'), 'url' => ['index']];
+$this->title = Yii::t('app', 'Изменить {modelClass}: ', [
+    'modelClass' => 'книгу в акте',
+]);
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Книга в акте'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 ?>

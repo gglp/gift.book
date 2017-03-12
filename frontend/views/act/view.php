@@ -3,20 +3,20 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\grid\GridView;
-use frontend\models\Act;
+
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Act */
 
-$this->title = $model->id;
+$this->title = 'Акт №' . $model->number;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Акты'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = $model->number;
 ?>
 <div class="act-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Обновить'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('app', 'Изменить'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a(Yii::t('app', 'Удалить'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
@@ -46,9 +46,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
             // 'id',
             'inventory_number',
-            'book_id',
             'price',
-
+            [
+                'attribute' => 'book_id',
+                'value' => 'book.title',
+            ],
             [
                 'class' => 'yii\grid\ActionColumn',
                 'controller' => 'actbook',

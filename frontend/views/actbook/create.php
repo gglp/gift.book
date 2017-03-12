@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\ActBook */
 
-$this->title = Yii::t('app', 'Create Act Book');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Act Books'), 'url' => ['index']];
+$this->title = Yii::t('app', 'Добавить книгу в акт');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Книга в акте'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="act-book-create">
