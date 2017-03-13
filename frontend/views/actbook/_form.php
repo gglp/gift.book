@@ -1,7 +1,11 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
+use conquer\select2\Select2Widget;
+
+use frontend\models\Book;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\ActBook */
@@ -12,9 +16,14 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?php // $form->field($model, 'act_id')->textInput() ?>
-
-    <?= $form->field($model, 'book_id')->textInput() ?>
+    <?= $form->field($model, 'book_id')->widget(
+            Select2Widget::className(),
+            [
+                'items' => isset($model->book_id) ? ArrayHelper::map(Book::find()->all(), 'id', 'title') : ['id' => null, 'title' => ''],
+                'ajax' => ['actbook/ajax', 'act_id' => $model->act_id],
+            ]
+        );
+    ?>
 
     <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
 

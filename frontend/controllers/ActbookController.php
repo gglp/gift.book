@@ -5,9 +5,12 @@ namespace frontend\controllers;
 use Yii;
 use frontend\models\ActBook;
 use frontend\models\ActBookSearch;
+use frontend\models\Book;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use conquer\select2\Select2Action;
+use yii\db\ActiveQuery;
 
 /**
  * ActbookController implements the CRUD actions for ActBook model.
@@ -26,6 +29,42 @@ class ActbookController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+        ];
+    }
+
+    public function actions()
+    {
+        return [
+            'ajax' => [
+                'class' => Select2Action::className(),
+                'dataCallback' => [$this, 'dataCallback'],
+            ],
+        ];
+    }
+    /**
+     * 
+     * @param string $q
+     * @return array
+     */
+    public function dataCallback($q, $act_id = null)
+    {
+/*        $query = new ActiveQuery(ActBook::className());
+        $excludeIds = $query->select('book_id')
+            ->filterWhere(['act_id' => $act_id])
+            ->asArray()
+            ->column();
+*/
+        $query = new ActiveQuery(Book::className());
+        return [
+            'results' =>  $query->select([
+                    'id AS id',
+                    'title AS text', 
+                ])
+                ->filterWhere(['like', 'title', $q])
+//                ->andFilterWhere(['not in', 'id', $excludeIds])
+                ->asArray()
+                ->limit(10)
+                ->all(),
         ];
     }
 

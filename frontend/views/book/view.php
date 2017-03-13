@@ -48,7 +48,11 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'id',
             [
                 'attribute' => 'act_id',
-                'value' => 'act.number',
+                'format' => 'raw',
+                'value' => function($model){
+                    return Html::a($model->act->number,['act/view', 'id' => $model->act_id]);
+                },
+//                'value' => 'act.number',
             ],
             'inventory_number',
             'price',

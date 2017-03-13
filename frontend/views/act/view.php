@@ -49,7 +49,11 @@ $this->params['breadcrumbs'][] = $model->number;
             'price',
             [
                 'attribute' => 'book_id',
-                'value' => 'book.title',
+                'format' => 'raw',
+                'value' => function($model){
+                    return Html::a($model->book->title,['book/view', 'id' => $model->book_id]);
+                },
+//                'value' => 'book.title',
             ],
             [
                 'class' => 'yii\grid\ActionColumn',

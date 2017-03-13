@@ -28,7 +28,7 @@ class BookController extends Controller
             ],
         ];
     }
-
+    
     /**
      * Lists all Book models.
      * @return mixed
