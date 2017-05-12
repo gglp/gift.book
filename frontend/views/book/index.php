@@ -27,7 +27,14 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'id',
             'isbn',
             'author:ntext',
-            'title:ntext',
+//            'title:ntext',
+            [
+                'attribute' => 'title',
+                'format' => 'raw',
+                'value' => function($model){
+                    return Html::a($model->title,['book/view', 'id' => $model->id]);
+                },
+            ],
             'year',
             'city',
             'publisher',

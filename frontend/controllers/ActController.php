@@ -39,8 +39,8 @@ class ActController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -52,7 +52,7 @@ class ActController extends Controller
     public function actionView($id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+                    'model' => $this->findModel($id),
         ]);
     }
 
@@ -69,7 +69,7 @@ class ActController extends Controller
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
     }
@@ -88,7 +88,7 @@ class ActController extends Controller
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
     }
@@ -121,4 +121,27 @@ class ActController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    public function actionPdf($id)
+    {
+        Yii::$app->response->format = 'pdf';
+
+        // Rotate the page
+        Yii::$container->set(Yii::$app->response->formatters['pdf']['class'], [
+            'marginLeft' => 10, // Optional
+            'marginRight' => 10, // Optional
+            'marginTop' => 10, // Optional
+            'marginBottom' => 10, // Optional
+            'marginHeader' => 0, // Optional
+            'marginFooter' => 0, // Optional
+            'format' => [210, 297], // Legal page size in mm
+            'orientation' => 'Portrait', // This value will be used when 'format' is an array only. Skipped when 'format' is empty or is a string
+        ]);
+
+//        $this->layout = '//print';
+        return $this->renderPartial('view_print', [
+            'model' => $this->findModel($id),
+        ]);
+    }
+
 }

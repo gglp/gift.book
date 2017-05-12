@@ -121,4 +121,26 @@ class BookController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    public function actionPdf($id)
+    {
+        Yii::$app->response->format = 'pdf';
+
+        // Rotate the page
+        Yii::$container->set(Yii::$app->response->formatters['pdf']['class'], [
+            'marginLeft' => 10, // Optional
+            'marginRight' => 10, // Optional
+            'marginTop' => 10, // Optional
+            'marginBottom' => 10, // Optional
+            'marginHeader' => 0, // Optional
+            'marginFooter' => 0, // Optional
+            'format' => [76, 126], // Legal page size in mm
+            'orientation' => 'Landscape', // This value will be used when 'format' is an array only. Skipped when 'format' is empty or is a string
+        ]);
+
+//        $this->layout = '//print';
+        return $this->renderPartial('view_print', [
+            'model' => $this->findModel($id),
+        ]);
+    }
 }

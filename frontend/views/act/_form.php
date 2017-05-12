@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\jui\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Act */
@@ -14,7 +15,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'number')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'date')->textInput() ?>
+    <?= $form->field($model, 'date')->widget(DatePicker::classname(), [
+        'options' => ['class' => 'form-control'],
+        'language' => 'ru',
+        'dateFormat' => 'yyyy-MM-dd'
+    ]) ?>
 
     <?= $form->field($model, 'grantor')->textInput(['maxlength' => true]) ?>
 

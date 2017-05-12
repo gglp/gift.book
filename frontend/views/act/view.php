@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Act */
 
-$this->title = 'Акт №' . $model->number;
+$this->title = 'Акт №' . $model->number . " от " . Yii::$app->formatter->asDate($model->date, 'dd.MM.yyyy');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Акты'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $model->number;
 ?>
@@ -17,6 +17,7 @@ $this->params['breadcrumbs'][] = $model->number;
 
     <p>
         <?= Html::a(Yii::t('app', 'Изменить'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('app', 'Печать'), ['pdf', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a(Yii::t('app', 'Удалить'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
@@ -45,7 +46,15 @@ $this->params['breadcrumbs'][] = $model->number;
             ['class' => 'yii\grid\SerialColumn'],
 
             // 'id',
-            'inventory_number',
+//            'inventory_number',
+            [
+                'attribute' => 'inventory_number',
+                'format' => 'raw',
+                'value' => function($model){
+                    return Html::a($model->inventory_number,['actbook/update', 'id' => $model->id]);
+                },
+//                'value' => 'book.title',
+            ],
             'price',
             [
                 'attribute' => 'book_id',
