@@ -9,6 +9,12 @@ use yii\data\ActiveDataProvider;
 /* @var $model frontend\models\Act */
 
 $this->title = 'Акт №' . $model->number . " от " . Yii::$app->formatter->asDate($model->date, 'dd.MM.yyyy');
+
+$amount = 0;
+
+foreach ($model->actBooks as $actbook){
+    $amount += $actbook->price;
+}
 ?>
 <div class="act-view">
 
@@ -41,7 +47,7 @@ $this->title = 'Акт №' . $model->number . " от " . Yii::$app->formatter->
                 'format' => 'raw',
                 'headerOptions' =>['width' => '400'],
                 'value' => function($model){
-                    return Html::encode($model->book->title);
+                    return Html::encode($model->book->description);
                 },
 //                'value' => 'book.title',
             ],
@@ -50,3 +56,6 @@ $this->title = 'Акт №' . $model->number . " от " . Yii::$app->formatter->
     ]); ?>
 
 </div>
+
+<p><?= Html::encode("Всего книг: " . count($model->actBooks) . " на сумму: " . $amount . " руб.") ?></p>
+

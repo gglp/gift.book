@@ -25,19 +25,19 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'year') ?>
 
-    <?php // echo $form->field($model, 'city') ?>
+    <?= $form->field($model, 'city') ?>
 
-    <?php // echo $form->field($model, 'publisher') ?>
+    <?= $form->field($model, 'publisher') ?>
 
-    <?php // echo $form->field($model, 'volume') ?>
+    <?= $form->field($model, 'volume') ?>
 
-    <?php // echo $form->field($model, 'description') ?>
+    <?= $form->field($model, 'description') ?>
 
-    <?php // echo $form->field($model, 'comment') ?>
+    <?= $form->field($model, 'comment') ?>
 
     <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-default']) ?>
+        <?= Html::submitButton(Yii::t('app', 'Найти'), ['class' => 'btn btn-primary']) ?>
+        <?= Html::resetButton(Yii::t('app', 'Сбросить'), ['class' => 'btn btn-default']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

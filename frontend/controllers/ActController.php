@@ -122,7 +122,29 @@ class ActController extends Controller
         }
     }
 
-    public function actionPdf($id)
+    public function actionPrintact($id)
+    {
+        Yii::$app->response->format = 'pdf';
+
+        // Rotate the page
+        Yii::$container->set(Yii::$app->response->formatters['pdf']['class'], [
+            'marginLeft' => 30, // Optional
+            'marginRight' => 10, // Optional
+            'marginTop' => 15, // Optional
+            'marginBottom' => 10, // Optional
+            'marginHeader' => 0, // Optional
+            'marginFooter' => 0, // Optional
+            'format' => [210, 297], // Legal page size in mm
+            'orientation' => 'Portrait', // This value will be used when 'format' is an array only. Skipped when 'format' is empty or is a string
+        ]);
+
+//        $this->layout = '//print';
+        return $this->renderPartial('printact', [
+            'model' => $this->findModel($id),
+        ]);
+    }
+
+    public function actionPrintcards($id)
     {
         Yii::$app->response->format = 'pdf';
 
@@ -134,12 +156,11 @@ class ActController extends Controller
             'marginBottom' => 10, // Optional
             'marginHeader' => 0, // Optional
             'marginFooter' => 0, // Optional
-            'format' => [210, 297], // Legal page size in mm
-            'orientation' => 'Portrait', // This value will be used when 'format' is an array only. Skipped when 'format' is empty or is a string
+            'format' => [76, 126], // Legal page size in mm
+            'orientation' => 'Landscape', // This value will be used when 'format' is an array only. Skipped when 'format' is empty or is a string
         ]);
 
-//        $this->layout = '//print';
-        return $this->renderPartial('view_print', [
+        return $this->renderPartial('printcards', [
             'model' => $this->findModel($id),
         ]);
     }
