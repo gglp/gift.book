@@ -18,11 +18,11 @@ use yii\bootstrap\ActiveForm;
 
     <?= $form->field($model, 'title')->textInput() ?>
 
-    <?= $form->field($model, 'year')->textInput() ?>
-
     <?= $form->field($model, 'city')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'publisher')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'year')->textInput() ?>
 
     <?= $form->field($model, 'volume')->textInput() ?>
 
