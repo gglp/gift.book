@@ -37,7 +37,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'grantor',
             'comment:ntext',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'contentOptions' => ['style' => 'white-space: nowrap'],
+            ],
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>

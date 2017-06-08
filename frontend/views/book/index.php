@@ -42,9 +42,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'volume',
             'serie',
             'description:ntext',
-            'comment:ntext',
+//            'comment:ntext',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'contentOptions' => ['style' => 'white-space: nowrap'],
+            ],
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>

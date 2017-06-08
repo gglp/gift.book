@@ -30,7 +30,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'price',
             'inventory_number',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'contentOptions' => ['style' => 'white-space: nowrap'],
+            ],
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>

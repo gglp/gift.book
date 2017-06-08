@@ -68,6 +68,7 @@ $this->params['breadcrumbs'][] = $model->number;
             [
                 'class' => 'yii\grid\ActionColumn',
                 'controller' => 'actbook',
+                'contentOptions' => ['style' => 'white-space: nowrap'],
             ],
         ],
     ]); ?>
