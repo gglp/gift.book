@@ -35,10 +35,12 @@ $this->params['breadcrumbs'][] = $this->title;
                     return Html::a($model->title,['book/view', 'id' => $model->id]);
                 },
             ],
+            'editor',
             'year',
             'city',
             'publisher',
             'volume',
+            'serie',
             'description:ntext',
             'comment:ntext',
 

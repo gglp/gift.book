@@ -14,7 +14,15 @@ use yii\bootstrap\ActiveForm;
 
     <?= $form->field($model, 'isbn')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'author')->textInput() ?>
+    <?= $form->field($model, 'author')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'authorname')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'authorpatronymic')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'otherauthors')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'editor')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'title')->textInput() ?>
 
@@ -25,6 +33,8 @@ use yii\bootstrap\ActiveForm;
     <?= $form->field($model, 'year')->textInput() ?>
 
     <?= $form->field($model, 'volume')->textInput() ?>
+
+    <?= $form->field($model, 'serie')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 
