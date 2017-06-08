@@ -8,7 +8,7 @@ use yii\data\ActiveDataProvider;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Act */
 
-$this->title = 'Акт №' . $model->number . " от " . Yii::$app->formatter->asDate($model->date, 'dd.MM.yyyy');
+$this->title = 'Акт приёма книг №' . $model->number . " от " . Yii::$app->formatter->asDate($model->date, 'dd.MM.yyyy');
 
 $amount = 0;
 
@@ -18,9 +18,13 @@ foreach ($model->actBooks as $actbook){
 ?>
 <div class="act-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <p>ИНИОН РАН</p>
+    <p>Пожертвование</p>
     
-    <p><?= Html::encode("Даритель: " . $model->grantor) ?></p>
+    <h2><?= Html::encode($this->title) ?></h2>
+    <p>(Лист инвентаризационной книги)</p>
+    
+    <p><?= Html::encode("От: " . $model->grantor) ?></p>
 
     <?= GridView::widget([
         'dataProvider' => new ActiveDataProvider([
@@ -57,5 +61,8 @@ foreach ($model->actBooks as $actbook){
 
 </div>
 
-<p><?= Html::encode("Всего книг: " . count($model->actBooks) . " на сумму: " . $amount . " руб.") ?></p>
+<p><?= Html::encode("Итого принято книг: " . count($model->actBooks)) ?><br />
+<?= Html::encode("На сумму: " . $amount . " руб. 00 коп.") ?></p>
+<br />
+<p>Акт составил: _________________________________</p>
 
