@@ -96,7 +96,8 @@ class Book extends \yii\db\ActiveRecord
                     . ", " . $this->year
                     . ". – " . $this->volume . " с."
                     . " – " . $this->serie . "."
-                    . " – " . $this->isbn
+                    . " – ISBN " . $this->isbn
+                    . "."
                     ;
         }
         
