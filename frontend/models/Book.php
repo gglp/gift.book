@@ -56,8 +56,8 @@ class Book extends \yii\db\ActiveRecord
             'authorname' => Yii::t('app', 'Автор - Имя'),
             'authorpatronymic' => Yii::t('app', 'Автор - Отчество'),
             'otherauthors' => Yii::t('app', 'Другие авторы'),
-            'editor' => Yii::t('app', 'Ответственный редактор'),
-            'title' => Yii::t('app', 'Название'),
+            'editor' => Yii::t('app', 'Ответственность'),
+            'title' => Yii::t('app', 'Заглавие'),
             'year' => Yii::t('app', 'Год'),
             'city' => Yii::t('app', 'Город'),
             'publisher' => Yii::t('app', 'Издательство'),
@@ -92,7 +92,7 @@ class Book extends \yii\db\ActiveRecord
                     . " / " . $this->otherauthors . ";"
                     . "; " . $this->editor
                     . " – " . $this->city
-                    . ".: " . $this->publisher
+                    . ": " . $this->publisher
                     . ", " . $this->year
                     . ". – " . $this->volume . " с."
                     . " – " . $this->serie . "."

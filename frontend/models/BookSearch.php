@@ -19,7 +19,7 @@ class BookSearch extends Book
     {
         return [
             [['id', 'year', 'volume'], 'integer'],
-            [['isbn', 'author', 'title', 'city', 'publisher', 'description', 'comment'], 'safe'],
+            [['isbn', 'author', 'title', 'editor', 'city', 'publisher', 'serie', 'description', 'comment'], 'safe'],
         ];
     }
 
@@ -69,6 +69,8 @@ class BookSearch extends Book
             ->andFilterWhere(['like', 'title', $this->title . "%", false])
             ->andFilterWhere(['like', 'city', $this->city])
             ->andFilterWhere(['like', 'publisher', $this->publisher])
+            ->andFilterWhere(['like', 'editor', $this->editor])
+            ->andFilterWhere(['like', 'serie', $this->serie])
             ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'comment', $this->comment]);
 
