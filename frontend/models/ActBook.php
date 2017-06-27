@@ -48,7 +48,7 @@ class ActBook extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'act_id' => Yii::t('app', 'Акт'),
-            'book_id' => Yii::t('app', 'Книга'),
+            'book_id' => Yii::t('app', 'Автор, заглавие'),
             'price' => Yii::t('app', 'Цена'),
             'inventory_number' => Yii::t('app', 'Инвентарный номер'),
         ];

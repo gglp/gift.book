@@ -167,13 +167,13 @@ class ActController extends Controller
 
         $pdf = new Pdf([
             'mode' => Pdf::MODE_UTF8, 
-            'format' => [76, 210], // Legal page size in mm
+            'format' => Pdf::FORMAT_A4, 
             'orientation' => Pdf::ORIENT_LANDSCAPE, 
             'destination' => Pdf::DEST_BROWSER, 
-            'marginLeft' => 52, // Optional
-            'marginRight' => 52, // Optional
-            'marginTop' => 10, // Optional
-            'marginBottom' => 10, // Optional
+            'marginLeft' => 181, // Optional
+            'marginRight' => 10, // Optional
+            'marginTop' => 77, // Optional
+            'marginBottom' => 77, // Optional
             'marginHeader' => 0, // Optional
             'marginFooter' => 0, // Optional
             'content' => $content,  
