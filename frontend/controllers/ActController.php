@@ -8,6 +8,7 @@ use frontend\models\ActSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use kartik\mpdf\Pdf;
 
 /**
  * ActController implements the CRUD actions for Act model.
@@ -124,45 +125,67 @@ class ActController extends Controller
 
     public function actionPrintact($id)
     {
-        Yii::$app->response->format = 'pdf';
+        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+        $headers = Yii::$app->response->headers;
+        $headers->add('Content-Type', 'application/pdf');
 
-        // Rotate the page
-        Yii::$container->set(Yii::$app->response->formatters['pdf']['class'], [
-            'marginLeft' => 30, // Optional
-            'marginRight' => 10, // Optional
-            'marginTop' => 15, // Optional
-            'marginBottom' => 10, // Optional
-            'marginHeader' => 0, // Optional
-            'marginFooter' => 0, // Optional
-            'format' => [210, 297], // Legal page size in mm
-            'orientation' => 'Portrait', // This value will be used when 'format' is an array only. Skipped when 'format' is empty or is a string
-        ]);
-
-//        $this->layout = '//print';
-        return $this->renderPartial('printact', [
+        $content = $this->renderPartial('printact', [
             'model' => $this->findModel($id),
         ]);
+
+        $pdf = new Pdf([
+            'mode' => Pdf::MODE_UTF8, 
+            'format' => Pdf::FORMAT_A4, 
+            'orientation' => Pdf::ORIENT_PORTRAIT, 
+            'destination' => Pdf::DEST_BROWSER, 
+            'marginLeft' => 30,
+            'marginRight' => 10,
+            'marginTop' => 15,
+            'marginBottom' => 10,
+            'marginHeader' => 0,
+            'marginFooter' => 10,
+            'content' => $content,  
+            'options' => ['title' => 'Акт'],
+            'methods' => [ 
+                //'SetHeader'=>['Акт'], 
+                'SetFooter'=>['{PAGENO}'],
+            ]
+        ]);
+    
+        return $pdf->render(); 
     }
 
     public function actionPrintcards($id)
     {
-        Yii::$app->response->format = 'pdf';
+        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+        $headers = Yii::$app->response->headers;
+        $headers->add('Content-Type', 'application/pdf');
 
-        // Rotate the page
-        Yii::$container->set(Yii::$app->response->formatters['pdf']['class'], [
-            'marginLeft' => 10, // Optional
-            'marginRight' => 10, // Optional
+        $content = $this->renderPartial('printcards', [
+            'model' => $this->findModel($id),
+        ]);
+
+        $pdf = new Pdf([
+            'mode' => Pdf::MODE_UTF8, 
+            'format' => [76, 210], // Legal page size in mm
+            'orientation' => Pdf::ORIENT_LANDSCAPE, 
+            'destination' => Pdf::DEST_BROWSER, 
+            'marginLeft' => 52, // Optional
+            'marginRight' => 52, // Optional
             'marginTop' => 10, // Optional
             'marginBottom' => 10, // Optional
             'marginHeader' => 0, // Optional
             'marginFooter' => 0, // Optional
-            'format' => [76, 126], // Legal page size in mm
-            'orientation' => 'Landscape', // This value will be used when 'format' is an array only. Skipped when 'format' is empty or is a string
+            'content' => $content,  
+            'options' => ['title' => 'Библиотечная карточка'],
+             // call mPDF methods on the fly
+            'methods' => [ 
+                //'SetHeader'=>['Акт'], 
+                //'SetFooter'=>['{PAGENO}'],
+            ]
         ]);
-
-        return $this->renderPartial('printcards', [
-            'model' => $this->findModel($id),
-        ]);
+    
+        return $pdf->render(); 
     }
 
 }

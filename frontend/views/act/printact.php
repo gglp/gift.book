@@ -1,14 +1,13 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\DetailView;
 use yii\grid\GridView;
 use yii\data\ActiveDataProvider;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Act */
 
-$this->title = 'Акт приёма книг №' . $model->number . " от " . Yii::$app->formatter->asDate($model->date, 'dd.MM.yyyy');
+$this->title = 'Акт приёма книг № ' . $model->number . " от " . Yii::$app->formatter->asDate($model->date, 'dd.MM.yyyy');
 
 $amount = 0;
 
@@ -22,7 +21,7 @@ foreach ($model->actBooks as $actbook){
     <p>Пожертвование</p>
     
     <h2><?= Html::encode($this->title) ?></h2>
-    <p>(Лист инвентаризационной книги)</p>
+    <p>(лист инвентарной книги)</p>
     
     <p><?= Html::encode("От: " . $model->grantor) ?></p>
 
