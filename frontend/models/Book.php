@@ -82,21 +82,55 @@ class Book extends \yii\db\ActiveRecord
             return false;
         }
         
+/*        echo '<pre>';
+        echo var_dump(!empty($this->isbn) ? " – ISBN " . $this->isbn : "");
+        die('</pre>');
+*/                
         if ($this->description == "")
         {
+            // Подготовим описание автора
+            $author = (!empty($this->author) ? $this->author : "")
+                    . (!empty($this->authorname) ? ", " . mb_substr($this->authorname, 0, 1) . "." : "")
+                    . (!empty($this->authorpatronymic) ? mb_substr($this->authorpatronymic, 0, 1) . "." : "")
+                    ;
+            
+            // Теперь автор и остальные авторы
+            $authorInOtherAuthors = (!empty($this->authorname) ? mb_substr($this->authorname, 0, 1) . "." : "")
+                    . (!empty($this->authorpatronymic) ? mb_substr($this->authorpatronymic, 0, 1) . "." : "")
+                    . (!empty($this->author) ? " ".$this->author : "")
+                    ;
+            
+            $tempArray = array();
+            if (!empty($authorInOtherAuthors)) {
+                $tempArray[] = $authorInOtherAuthors;
+            }
+            if (!empty($this->otherauthors)) {
+                $tempArray[] = $this->otherauthors;
+            }
+            
+            $otherauthors = implode(", ", $tempArray);
+            
+            $tempArray = array();
+            if (!empty($otherauthors)) {
+                $tempArray[] = $otherauthors;
+            }
+            if (!empty($this->editor)) {
+                $tempArray[] = $this->editor;
+            }
+
+            $authorsWithEditor = implode("; ", $tempArray);
+            
+            // Сформируем полное библиографическое описание
             $this->description =
-                    $this->author
-                    . ", " . mb_substr($this->authorname, 0, 1) . "."
-                    . mb_substr($this->authorpatronymic, 0, 1) . "."
-                    . " " . $this->title
-                    . " / " . $this->otherauthors . ";"
-                    . "; " . $this->editor
+                    (!empty($author) ? ($author . " ") : "")
+                    . $this->title
+                    . (!empty($authorsWithEditor) ? " / " . $authorsWithEditor : "")
                     . " – " . $this->city
                     . ": " . $this->publisher
                     . ", " . $this->year
-                    . ". – " . $this->volume . " с."
-                    . " – " . $this->serie . "."
-                    . " – ISBN " . $this->isbn
+                    . (!empty($this->volume) ? ". – " . $this->volume . " с." : "")
+                    . (!empty($this->serie) ? " – " . $this->serie . "." : "")
+                    . (!empty($this->isbn) ? " – ISBN " . $this->isbn : "")
                     . "."
                     ;
         }
