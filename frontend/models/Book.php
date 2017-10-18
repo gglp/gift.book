@@ -124,14 +124,13 @@ class Book extends \yii\db\ActiveRecord
             $this->description =
                     (!empty($author) ? ($author . " ") : "")
                     . $this->title
-                    . (!empty($authorsWithEditor) ? " / " . $authorsWithEditor : "")
+                    . (!empty($authorsWithEditor) ? " / " . $authorsWithEditor . "." : "")
                     . " – " . $this->city
                     . ": " . $this->publisher
                     . ", " . $this->year
                     . (!empty($this->volume) ? ". – " . $this->volume . " с." : "")
                     . (!empty($this->serie) ? " – " . $this->serie . "." : "")
                     . (!empty($this->isbn) ? " – ISBN " . $this->isbn : "")
-                    . "."
                     ;
         }
         
