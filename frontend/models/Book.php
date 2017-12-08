@@ -130,7 +130,7 @@ class Book extends \yii\db\ActiveRecord
                     . ", " . $this->year
                     . (!empty($this->volume) ? ". – " . $this->volume . " с." : "")
                     . (!empty($this->serie) ? " – (" . $this->serie . ")." : "")
-                    . (!empty($this->isbn) ? " – ISBN " . $this->isbn : "")
+                    . (!empty($this->isbn) ? " – ISBN " . $this->isbn . "." : "")
                     ;
         }
         

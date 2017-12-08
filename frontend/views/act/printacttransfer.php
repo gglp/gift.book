@@ -7,7 +7,7 @@ use yii\data\ActiveDataProvider;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Act */
 
-$this->title = 'Акт приёма книг № ' . $model->number . " от " . Yii::$app->formatter->asDate($model->date, 'dd.MM.yyyy');
+$this->title = 'АКТ № ' . $model->number . " от " . Yii::$app->formatter->asDate($model->date, 'dd.MM.yyyy');
 
 $amount = 0;
 
@@ -16,15 +16,17 @@ foreach ($model->actBooks as $actbook){
 }
 ?>
 <div class="act-view">
-
-    <p>ИНИОН РАН</p>
-    <p>Пожертвование</p>
     
-    <h2 style="text-align: center"><?= Html::encode($this->title) ?></h2>
-    <p style="text-align: center">(лист инвентарной книги)</p>
+    <h3 style="text-align: center"><?= Html::encode($this->title) ?></h3>
+    <p>передачи литературы из Отдела комплектования научных фондов (ОКНФ)
+        в Отдел научных фондов (ОНФ) ИНИОН РАН в количестве
+        <?= Html::encode(count($model->actBooks)) ?> ед.
+        <?= Html::encode("на сумму: " . $amount . " руб. 00 коп.") ?></p>
+    <p>Упаковано в коробки в количестве ______ шт.</p>
+    <p>Источник поступления: пожертвования</p>
+    <p>Передал: ОКНФ _______________________</p>
+    <p>Принял: ОНФ   _______________________</p>
     
-    <p style="margin-bottom: 23px;"><?= Html::encode("От: " . $model->grantor) ?></p>
-    <br />
     <?= GridView::widget([
         'dataProvider' => new ActiveDataProvider([
             'query' => $model->getActBooks()
@@ -60,7 +62,7 @@ foreach ($model->actBooks as $actbook){
 
 </div>
 
-<p><?= Html::encode("Итого принято книг: " . count($model->actBooks)) ?><br />
+<p><?= Html::encode("Итого передано книг: " . count($model->actBooks)) ?><br />
 <?= Html::encode("На сумму: " . $amount . " руб. 00 коп.") ?></p>
 <br />
 <p>Акт составил: _________________________________</p>

@@ -145,7 +145,71 @@ class ActController extends Controller
             'marginHeader' => 0,
             'marginFooter' => 10,
             'content' => $content,  
-            'options' => ['title' => 'Акт'],
+            'options' => ['title' => 'Акт приёма'],
+            'methods' => [ 
+                //'SetHeader'=>['Акт'], 
+                'SetFooter'=>['{PAGENO}'],
+            ]
+        ]);
+    
+        return $pdf->render(); 
+    }
+
+    public function actionPrintactannex($id)
+    {
+        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+        $headers = Yii::$app->response->headers;
+        $headers->add('Content-Type', 'application/pdf');
+
+        $content = $this->renderPartial('printactannex', [
+            'model' => $this->findModel($id),
+        ]);
+
+        $pdf = new Pdf([
+            'mode' => Pdf::MODE_UTF8, 
+            'format' => Pdf::FORMAT_A4, 
+            'orientation' => Pdf::ORIENT_PORTRAIT, 
+            'destination' => Pdf::DEST_BROWSER, 
+            'marginLeft' => 30,
+            'marginRight' => 10,
+            'marginTop' => 15,
+            'marginBottom' => 10,
+            'marginHeader' => 0,
+            'marginFooter' => 10,
+            'content' => $content,  
+            'options' => ['title' => 'Приложение к Акту'],
+            'methods' => [ 
+                //'SetHeader'=>['Акт'], 
+                'SetFooter'=>['{PAGENO}'],
+            ]
+        ]);
+    
+        return $pdf->render(); 
+    }
+
+    public function actionPrintacttransfer($id)
+    {
+        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+        $headers = Yii::$app->response->headers;
+        $headers->add('Content-Type', 'application/pdf');
+
+        $content = $this->renderPartial('printacttransfer', [
+            'model' => $this->findModel($id),
+        ]);
+
+        $pdf = new Pdf([
+            'mode' => Pdf::MODE_UTF8, 
+            'format' => Pdf::FORMAT_A4, 
+            'orientation' => Pdf::ORIENT_PORTRAIT, 
+            'destination' => Pdf::DEST_BROWSER, 
+            'marginLeft' => 30,
+            'marginRight' => 10,
+            'marginTop' => 15,
+            'marginBottom' => 10,
+            'marginHeader' => 0,
+            'marginFooter' => 10,
+            'content' => $content,  
+            'options' => ['title' => 'Акт передачи'],
             'methods' => [ 
                 //'SetHeader'=>['Акт'], 
                 'SetFooter'=>['{PAGENO}'],

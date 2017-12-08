@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\grid\GridView;
+use yii\bootstrap\ButtonDropdown;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Act */
@@ -17,8 +18,6 @@ $this->params['breadcrumbs'][] = $model->number;
 
     <p>
         <?= Html::a(Yii::t('app', 'Изменить'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Печать Акта'), ['printact', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Печать Карточек'), ['printcards', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a(Yii::t('app', 'Удалить'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
@@ -26,6 +25,40 @@ $this->params['breadcrumbs'][] = $model->number;
                 'method' => 'post',
             ],
         ]) ?>
+        <?php
+        echo ButtonDropdown::widget([
+            'label' => 'Печать',
+            'options' => [
+                'class' => 'btn btn-info',
+            ],
+            'dropdown' => [
+                'items' => [
+                    [
+                        'label' => 'Акт приёма',
+                        'url' => "index.php?r=act/printact&id=$model->id"
+                    ],
+                    [
+                        'label' => 'Акт передачи',
+                        'url' => "index.php?r=act/printacttransfer&id=$model->id"
+                    ],
+                    [
+                        'label' => 'Приложение к Акту',
+                        'url' => "index.php?r=act/printactannex&id=$model->id"
+                    ],
+                    [
+                        'label' => '',
+                        'options' => [
+                            'role' => 'presentation',
+                            'class' => 'divider'
+                        ]
+                    ],
+                    [
+                        'label' => 'Карточка',
+                        'url' => "index.php?r=act/printcards&id=$model->id"
+                    ]
+                ]
+            ]
+        ]); ?>
     </p>
 
     <?= DetailView::widget([
