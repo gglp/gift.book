@@ -17,7 +17,6 @@ foreach ($model->actBooks as $actbook){
 ?>
 <div class="act-view">
 
-    <p style="text-align: right">Форма №22</p>
     <p>ФГБУН ИНИОН РАН</p>
     <br />
     <br />
@@ -34,6 +33,6 @@ foreach ($model->actBooks as $actbook){
 <p><?= Html::encode("Взято на баланс: " . count($model->actBooks) . " экз. на сумму: " . $amount . " руб.") ?></p>
 <br />
 <br />
-<p>Счёт провёл: _________________________________</p>
+<p>Акт составил: _________________________________</p>
 <br />
 <p>Дата: _________________________________</p>
