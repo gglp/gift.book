@@ -16,8 +16,8 @@ class m190402_094718_create_catalog_table extends Migration
          
         $this->createTable('catalog', [
             'id' => $this->primaryKey(),
-            'code' => $this->string()->comment('Код рубрики'),
-            'name' => $this->string()->comment('Название рубрики'),
+            'code' => $this->string()->notNull()->comment('Код рубрики'),
+            'name' => $this->string()->notNull()->comment('Название рубрики'),
         ], $tableOptions);
         
         $this->createIndex('idx-catalog-code', 'catalog', 'code', true);
