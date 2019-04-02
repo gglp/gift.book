@@ -76,6 +76,22 @@ class Book extends \yii\db\ActiveRecord
         return $this->hasMany(ActBook::className(), ['book_id' => 'id']);
     }
     
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBookCatalogs()
+    {
+        return $this->hasMany(BookCatalog::className(), ['book_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCatalogs()
+    {
+        return $this->hasMany(Catalog::className(), ['id' => 'catalog_id'])->viaTable('book_catalog', ['book_id' => 'id']);
+    }    
+    
     public function beforeSave($insert)
     {
         if (!parent::beforeSave($insert)) {
