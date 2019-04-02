@@ -33,6 +33,7 @@ class Catalog extends \yii\db\ActiveRecord
             [['code', 'name'], 'required'],
             [['code', 'name'], 'string', 'max' => 255],
             [['code'], 'unique'],
+            [['code'], 'integer', 'min' => 0],
         ];
     }
 
@@ -42,7 +43,7 @@ class Catalog extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
+            'id' => Yii::t('app', 'Номер'),
             'code' => Yii::t('app', 'Код рубрики'),
             'name' => Yii::t('app', 'Название рубрики'),
         ];
