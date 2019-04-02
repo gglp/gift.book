@@ -43,6 +43,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'serie:ntext',
             'description:ntext',
             'comment:ntext',
+            [                      
+                'label' => 'Рубрики',
+                'value' => implode(', ', $model->getCatalogData('code')),
+            ],            
         ],
     ]) ?>
 
