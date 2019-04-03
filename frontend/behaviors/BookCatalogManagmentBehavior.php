@@ -6,7 +6,7 @@ use yii\db\ActiveRecord;
 use frontend\models\BookCatalog;
 
 /**
- * Adjusts catalog for a book from data which came from form
+ * Adjusts catalog for a book from data which comes from form
  */
 class BookCatalogManagmentBehavior extends \yii\base\Behavior
 {
@@ -28,18 +28,7 @@ class BookCatalogManagmentBehavior extends \yii\base\Behavior
      */    
     public function afterInsert($event)
     {
-        $book = $this->owner;
-        $formcatalog = $book->formcatalog;
-        if (!empty($formcatalog) && is_array($formcatalog)) {
-            foreach ($formcatalog as $val) {
-                $item = new BookCatalog([
-                    'book_id' => $book->id,
-                    'catalog_id' => $val,
-                ]);
-                $item->save(false);
-            }
-        }
-        
+        $this->saveNewItems($this->owner->formcatalog);
     }
     
     /**
@@ -53,6 +42,10 @@ class BookCatalogManagmentBehavior extends \yii\base\Behavior
         
         $newcatalog = [];
         $formcatalog = $book->formcatalog;
+        // not model editing with form scenario
+        if (is_null($formcatalog)) {
+            return;
+        }
         if (!empty($formcatalog) && is_array($formcatalog)) {
             foreach ($formcatalog as $val) {
                 $newcatalog[(int) $val] = (int) $val;
@@ -68,14 +61,21 @@ class BookCatalogManagmentBehavior extends \yii\base\Behavior
             }
         }
         
-        foreach ($newcatalog as $val) {
-            $item = new BookCatalog([
-                'book_id' => $book->id,
-                'catalog_id' => $val,
-            ]);
-            $item->save(false);            
-        }
-        
+        $this->saveNewItems($newcatalog);
+    }
+	
+    private function saveNewItems($formcatalog)
+    {
+        $book = $this->owner;
+        if (!empty($formcatalog) && is_array($formcatalog)) {
+            foreach ($formcatalog as $val) {
+                $item = new BookCatalog([
+                    'book_id' => $book->id,
+                    'catalog_id' => $val,
+                ]);
+                $item->save(false);
+            }
+        }		
     }
     
 }
