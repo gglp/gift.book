@@ -6,6 +6,8 @@ use yii\bootstrap\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model app\models\Book */
 /* @var $form yii\widgets\ActiveForm */
+
+$catalogItems = yii\helpers\ArrayHelper::map(frontend\models\Catalog::find()->asArray()->all(), 'id', 'code');
 ?>
 
 <div class="book-form">
@@ -29,7 +31,7 @@ use yii\bootstrap\ActiveForm;
     <?= $form->field($model, 'city')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'publisher')->textInput(['maxlength' => true]) ?>
-
+    
     <?= $form->field($model, 'year')->textInput() ?>
 
     <?= $form->field($model, 'volume')->textInput() ?>
@@ -39,6 +41,8 @@ use yii\bootstrap\ActiveForm;
     <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 
     <?= $form->field($model, 'comment')->textarea(['rows' => 6]) ?>
+    
+    <?= $form->field($model, 'formcatalog')->dropDownList($catalogItems, ['multiple' => true]) ?>    
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Добавить') : Yii::t('app', 'Сохранить'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

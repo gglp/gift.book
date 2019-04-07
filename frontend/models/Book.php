@@ -3,6 +3,7 @@
 namespace frontend\models;
 
 use Yii;
+use frontend\behaviors\BookCatalogManagmentBehavior;
 
 /**
  * This is the model class for table "{{%book}}".
@@ -25,11 +26,25 @@ use Yii;
 class Book extends \yii\db\ActiveRecord
 {
     /**
+     * @var array Field to store catalog items when edited at form
+     */
+    public $formcatalog;
+    
+    /**
      * @inheritdoc
      */
     public static function tableName()
     {
         return '{{%book}}';
+    }
+    
+    public function behaviors()
+    {
+        return [
+            'adjustWithCatalog' => [
+                'class' => BookCatalogManagmentBehavior::className(),
+            ],
+        ];
     }
 
     /**
@@ -41,6 +56,7 @@ class Book extends \yii\db\ActiveRecord
             [['title', 'description', 'comment'], 'string'],
             [['year', 'volume'], 'integer'],
             [['isbn', 'author', 'otherauthors', 'authorname', 'authorpatronymic', 'editor', 'city', 'publisher', 'serie'], 'string', 'max' => 255],
+            [['formcatalog'], 'safe'],
         ];
     }
 
@@ -65,6 +81,7 @@ class Book extends \yii\db\ActiveRecord
             'serie' => Yii::t('app', 'Серия'),
             'description' => Yii::t('app', 'Описание'),
             'comment' => Yii::t('app', 'Комментарий'),
+            'formcatalog' => Yii::t('app', 'Рубрики'),
         ];
     }
 
@@ -76,6 +93,51 @@ class Book extends \yii\db\ActiveRecord
         return $this->hasMany(ActBook::className(), ['book_id' => 'id']);
     }
     
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBookCatalogs()
+    {
+        return $this->hasMany(BookCatalog::className(), ['book_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCatalogs()
+    {
+        return $this->hasMany(Catalog::className(), ['id' => 'catalog_id'])->viaTable('book_catalog', ['book_id' => 'id']);
+    }   
+    
+    /**
+     * Returns catalog for a form
+     * Return value is an array like ['11', '13'] fit for form attribute
+     */
+    public function getFormCatalog()
+    {
+        $result = [];
+        $items = BookCatalog::find()->select('catalog_id')->where(['book_id' => $this->id])->asArray()->all(); 
+        foreach ($items as $val) {
+            $result[] = $val['catalog_id'];
+        }
+        return $result;
+    }
+    
+    /**
+     * Returns array of model's catalog items
+     * 
+     * @param string $what Which data to get from catalog. Should be 'code' or 'name'
+     * @return array
+     */
+    public function getCatalogData($what)
+    {
+        $result = [];
+        foreach ($this->catalogs as $catalog) {
+            $result[] = $catalog[$what];
+        }
+        return $result;
+    }
+
     public function beforeSave($insert)
     {
         if (!parent::beforeSave($insert)) {

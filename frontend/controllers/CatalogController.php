@@ -3,16 +3,16 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\models\Book;
-use frontend\models\BookSearch;
+use frontend\models\Catalog;
+use frontend\models\CatalogSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * BookController implements the CRUD actions for Book model.
+ * CatalogController implements the CRUD actions for Catalog model.
  */
-class BookController extends Controller
+class CatalogController extends Controller
 {
     /**
      * @inheritdoc
@@ -28,14 +28,14 @@ class BookController extends Controller
             ],
         ];
     }
-    
+
     /**
-     * Lists all Book models.
+     * Lists all Catalog models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new BookSearch();
+        $searchModel = new CatalogSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,7 +45,7 @@ class BookController extends Controller
     }
 
     /**
-     * Displays a single Book model.
+     * Displays a single Catalog model.
      * @param integer $id
      * @return mixed
      */
@@ -57,26 +57,25 @@ class BookController extends Controller
     }
 
     /**
-     * Creates a new Book model.
+     * Creates a new Catalog model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Book();
-        
+        $model = new Catalog();
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
-        } 
-        
-        return $this->render('create', [
-            'model' => $model,
-        ]);
-        
+        } else {
+            return $this->render('create', [
+                'model' => $model,
+            ]);
+        }
     }
 
     /**
-     * Updates an existing Book model.
+     * Updates an existing Catalog model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -84,8 +83,6 @@ class BookController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        
-        $model->formcatalog = $model->getFormCatalog();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -97,7 +94,7 @@ class BookController extends Controller
     }
 
     /**
-     * Deletes an existing Book model.
+     * Deletes an existing Catalog model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -110,40 +107,18 @@ class BookController extends Controller
     }
 
     /**
-     * Finds the Book model based on its primary key value.
+     * Finds the Catalog model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Book the loaded model
+     * @return Catalog the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Book::findOne($id)) !== null) {
+        if (($model = Catalog::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
-    }
-
-    public function actionPdf($id)
-    {
-        Yii::$app->response->format = 'pdf';
-
-        // Rotate the page
-        Yii::$container->set(Yii::$app->response->formatters['pdf']['class'], [
-            'marginLeft' => 10, // Optional
-            'marginRight' => 10, // Optional
-            'marginTop' => 10, // Optional
-            'marginBottom' => 10, // Optional
-            'marginHeader' => 0, // Optional
-            'marginFooter' => 0, // Optional
-            'format' => [76, 126], // Legal page size in mm
-            'orientation' => 'Landscape', // This value will be used when 'format' is an array only. Skipped when 'format' is empty or is a string
-        ]);
-
-//        $this->layout = '//print';
-        return $this->renderPartial('view_print', [
-            'model' => $this->findModel($id),
-        ]);
     }
 }
