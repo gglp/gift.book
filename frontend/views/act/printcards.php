@@ -11,8 +11,12 @@ $book = $actbook->book;
 ?>
 <table width="100%">
     <tr>
-        <td width="20%" height="150px" valign="top"><?php echo $actbook->inventory_number; ?></td>
+        <td width="20%" valign="top"><?php echo $actbook->inventory_number; ?></td>
         <td colspan="2" valign="top"><?php echo $book->description; ?></td>
+    </tr>
+    <tr>
+        <td height="110px" valign="top">ИНИОН</td>
+        <td colspan="2" valign="top"><?php echo implode(', ', $book->getCatalogData('code')); ?></td>
     </tr>
     <tr>
         <td colspan="2"></td>
