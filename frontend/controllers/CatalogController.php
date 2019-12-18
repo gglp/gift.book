@@ -8,6 +8,9 @@ use frontend\models\CatalogSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use frontend\models\CatalogDateRangeForm;
+use yii\db\Query;
+use kartik\mpdf\Pdf;
 
 /**
  * CatalogController implements the CRUD actions for Catalog model.
@@ -24,6 +27,7 @@ class CatalogController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                    'report' => ['POST'],
                 ],
             ],
         ];
@@ -51,8 +55,11 @@ class CatalogController extends Controller
      */
     public function actionView($id)
     {
+        $dateRangeModel = new CatalogDateRangeForm();
+        
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'dateRangeModel' => $dateRangeModel,
         ]);
     }
 
@@ -105,6 +112,73 @@ class CatalogController extends Controller
 
         return $this->redirect(['index']);
     }
+    
+    /**
+     * Report about some category books
+     * 
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionReport($id)
+    {
+        $model = $this->findModel($id);
+        
+        $dateRangeModel = new CatalogDateRangeForm();
+        
+        if ($dateRangeModel->load(Yii::$app->request->post()) && $dateRangeModel->validate()) {
+            $query = new Query();
+            $query->select( [
+                'restitle' => 'b.title',
+                'resauthor' => 'b.author',
+                'resinvnum' => new \yii\db\Expression('ANY_VALUE([[ab]].[[inventory_number]])'),
+                'resactnumber' => new \yii\db\Expression('ANY_VALUE([[a]].[[number]])'),
+                'resactdate' => new \yii\db\Expression('ANY_VALUE([[a]].[[date]])'),
+                'resbookid' => 'ab.book_id',
+                'resprice' => new \yii\db\Expression('SUM([[ab]].[[price]])'),
+                'resbookcount' => new \yii\db\Expression('COUNT([[ab]].[[book_id]])'),                
+            ])
+            ->from('{{%act_book}} ab, {{%act}} a, {{%book}} b, {{%book_catalog}} bc ')
+            ->where('[[ab]].[[act_id]] = [[a]].[[id]]')
+            ->andWhere(['between', 'a.date', $dateRangeModel->from, $dateRangeModel->to])
+            ->andWhere('[[ab]].[[book_id]] = [[b]].[[id]]')
+            ->andWhere('[[b]].[[id]] = [[bc]].[[book_id]]')        
+            ->andWhere(['=', 'bc.catalog_id', $id])
+            ->groupBy('[[ab]].[[book_id]]');
+            
+            Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+            $headers = Yii::$app->response->headers;
+            $headers->add('Content-Type', 'application/pdf');
+            
+            $content = $this->renderPartial('printcatalogact', [
+                'model' => $model,
+                'dateRangeModel' => $dateRangeModel,
+                'allModels' => $query->all(),
+            ]);
+            
+            $pdf = new Pdf([
+                'mode' => Pdf::MODE_UTF8, 
+                'format' => Pdf::FORMAT_A4, 
+                'orientation' => Pdf::ORIENT_PORTRAIT, 
+                'destination' => Pdf::DEST_BROWSER, 
+                'marginLeft' => 30,
+                'marginRight' => 10,
+                'marginTop' => 15,
+                'marginBottom' => 10,
+                'marginHeader' => 0,
+                'marginFooter' => 10,
+                'content' => $content,  
+                'options' => [],
+                'methods' => []
+            ]);
+
+            return $pdf->render();
+        
+        }
+        
+        return $this->redirect(['view', 'id' => $model->id]);
+        
+
+    }    
 
     /**
      * Finds the Catalog model based on its primary key value.

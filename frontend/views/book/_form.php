@@ -7,7 +7,7 @@ use yii\bootstrap\ActiveForm;
 /* @var $model app\models\Book */
 /* @var $form yii\widgets\ActiveForm */
 
-$catalogItems = yii\helpers\ArrayHelper::map(frontend\models\Catalog::find()->asArray()->all(), 'id', 'code');
+$catalogItems = yii\helpers\ArrayHelper::map(frontend\models\Catalog::find()->orderBy('code')->asArray()->all(), 'id', 'code');
 ?>
 
 <div class="book-form">
