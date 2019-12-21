@@ -149,7 +149,7 @@ class CatalogController extends Controller
             $headers = Yii::$app->response->headers;
             $headers->add('Content-Type', 'application/pdf');
             
-            $content = $this->renderPartial('printcatalogact', [
+            $content = $this->renderPartial('report', [
                 'model' => $model,
                 'dateRangeModel' => $dateRangeModel,
                 'allModels' => $query->all(),
