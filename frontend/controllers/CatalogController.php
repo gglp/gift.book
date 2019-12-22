@@ -127,6 +127,7 @@ class CatalogController extends Controller
         
         if ($dateRangeModel->load(Yii::$app->request->post()) && $dateRangeModel->validate()) {
             $query = new Query();
+/*
             $query->select( [
                 'restitle' => 'b.title',
                 'resauthor' => 'b.author',
@@ -144,15 +145,32 @@ class CatalogController extends Controller
             ->andWhere('[[b]].[[id]] = [[bc]].[[book_id]]')        
             ->andWhere(['=', 'bc.catalog_id', $id])
             ->groupBy('[[ab]].[[book_id]]');
+*/            
+            $query->select([
+                'rbook' => 'b.description',
+                'rnumber' => 'a.number',
+                'rdate' => 'a.date',
+                'rprice' => 'ab.price',
+                'rinventory_number' => 'ab.inventory_number',
+            ])
+            ->from('{{%act}} a, {{%book}} b, {{%act_book}} ab, {{%book_catalog}} bc')
+            ->where('[[ab]].[[act_id]] = [[a]].[[id]]')
+            ->andWhere(['between', 'a.date', $dateRangeModel->from, $dateRangeModel->to])
+            ->andWhere('[[ab]].[[book_id]] = [[b]].[[id]]')
+            ->andWhere('[[b]].[[id]] = [[bc]].[[book_id]]')        
+            ->andWhere(['=', 'bc.catalog_id', $id])
+            ;
+            
+            $allBooks = $query->all();
             
             Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
             $headers = Yii::$app->response->headers;
             $headers->add('Content-Type', 'application/pdf');
             
-            $content = $this->renderPartial('report', [
+            $content = $this->renderPartial('printcatalog', [
                 'model' => $model,
                 'dateRangeModel' => $dateRangeModel,
-                'allModels' => $query->all(),
+                'allBooks' => $allBooks,
             ]);
             
             $pdf = new Pdf([
