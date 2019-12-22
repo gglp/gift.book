@@ -29,8 +29,8 @@ foreach ($model->actBooks as $actbook){
 </div>
 <br />
 <br />
-<p><?= Html::encode("Всего поступило: " . count($model->actBooks) . " экз. на сумму: " . $amount . " руб.") ?></p>
-<p><?= Html::encode("Взято на баланс: " . count($model->actBooks) . " экз. на сумму: " . $amount . " руб.") ?></p>
+<p><?= Html::encode("Всего поступило: " . count($model->actBooks) . " экз. на сумму: " . intval($amount) . ' руб. ' . round(($amount - intval($amount)) * 100) .' коп.') ?></p>
+<p><?= Html::encode("Взято на баланс: " . count($model->actBooks) . " экз. на сумму: " . intval($amount) . ' руб. ' . round(($amount - intval($amount)) * 100) .' коп.') ?></p>
 <br />
 <br />
 <p>Акт составил: _________________________________</p>

@@ -21,7 +21,7 @@ foreach ($model->actBooks as $actbook){
     <p>передачи литературы из Отдела комплектования научных фондов (ОКНФ)
         в Отдел научных фондов (ОНФ) ИНИОН РАН в количестве
         <?= Html::encode(count($model->actBooks)) ?> ед.
-        <?= Html::encode("на сумму: " . $amount . " руб. 00 коп.") ?></p>
+        <?= Html::encode("на сумму: " . intval($amount) . ' руб. ' . round(($amount - intval($amount)) * 100) .' коп.') ?></p>
     <p>Упаковано в коробки в количестве ______ шт.</p>
     <p>Источник поступления: пожертвования</p>
     <p>Передал: ОКНФ _______________________</p>
@@ -63,7 +63,7 @@ foreach ($model->actBooks as $actbook){
 </div>
 
 <p><?= Html::encode("Итого передано книг: " . count($model->actBooks)) ?><br />
-<?= Html::encode("На сумму: " . $amount . " руб. 00 коп.") ?></p>
+<?= Html::encode("На сумму: " . intval($amount) . ' руб. ' . round(($amount - intval($amount)) * 100) .' коп.') ?></p>
 <br />
 <p>Акт составил: _________________________________</p>
 

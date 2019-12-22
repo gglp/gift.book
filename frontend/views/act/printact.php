@@ -61,7 +61,7 @@ foreach ($model->actBooks as $actbook){
 </div>
 
 <p><?= Html::encode("Итого принято книг: " . count($model->actBooks)) ?><br />
-<?= Html::encode("На сумму: " . $amount . " руб. 00 коп.") ?></p>
+<?= Html::encode("На сумму: " . intval($amount) . ' руб. ' . round(($amount - intval($amount)) * 100) .' коп.') ?></p>
 <br />
 <p>Акт составил: _________________________________</p>
 

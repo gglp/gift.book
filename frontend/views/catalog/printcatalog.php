@@ -49,6 +49,6 @@ $sumCount = 0;
 </div>
 
 <p><?= Html::encode("Итого принято книг: " . $sumCount) ?><br />
-<?= Html::encode("На сумму: " . $sumPrice . " руб. 00 коп.") ?></p>
+<?= Html::encode("На сумму: " . intval($sumPrice) . ' руб. ' . round(($sumPrice - intval($sumPrice)) * 100) .' коп.') ?></p>
 
 
